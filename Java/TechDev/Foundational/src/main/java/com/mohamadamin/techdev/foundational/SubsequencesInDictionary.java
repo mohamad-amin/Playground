@@ -23,11 +23,6 @@ public class SubsequencesInDictionary {
     private void preprocess(String word) {
         indexOf = new int['z'-'a'][word.length()];
         last = new int['z'-'a'];
-        for (int i = 0; i < indexOf.length; i++) {
-            for (int j = 0; j < word.length(); j++) {
-                indexOf[i][j] = -1;
-            }
-        }
         for (int i = 0; i < word.length(); i++) {
             char c = word.charAt(i);
             indexOf[c-'a'][last[c-'a']++] = i;
