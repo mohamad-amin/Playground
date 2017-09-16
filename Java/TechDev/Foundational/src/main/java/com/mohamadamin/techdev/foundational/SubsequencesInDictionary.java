@@ -34,20 +34,28 @@ public class SubsequencesInDictionary {
         }
     }
 
+    private int binarySearchBigger(int array[], int from, int to, int key) {
+        while (to >= from) {
+            int mid = (to+from)/2;
+            if (array[mid] <= key) {
+                from = mid + 1;
+            } else {
+                return array[mid];
+            }
+        }
+        return -1;
+    }
+
     private boolean isSubsequent(String suspect) {
         int currentIndex = -1;
         for (int i = 0; i < suspect.length(); i++) {
-            boolean found = false;
-            int indexes[] = indexOf[suspect.charAt(i) - 'a'];
-            for (int j = 0; j < last[suspect.charAt(i) - 'a']; j++) {
-                if (indexes[j] > currentIndex) {
-                    currentIndex = indexes[j];
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) {
+            int j = suspect.charAt(i) - 'a';
+            int indexes[] = indexOf[j];
+            int next = binarySearchBigger(indexes, 0, last[j], currentIndex);
+            if (next == -1) {
                 return false;
+            } else {
+                currentIndex = next;
             }
         }
         return true;
