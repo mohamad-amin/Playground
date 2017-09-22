@@ -1,6 +1,6 @@
 /**
  * Created by Mohamad Amin Mohamadi (mohammadi.mohamadamin@gmail.com) on 9/22/17
- * Problem url: http://www.geeksforgeeks.org/count-triplets-whose-sum-equal-perfect-cube/
+ * Problem url: http://www.geeksforgeeks.org/maximum-sum-bitonic-subarray/
  */
 #include <bits/stdc++.h>
 using namespace std;
@@ -38,48 +38,57 @@ typedef vector<ld> vld;
 #define N 15001
 #define M 1001
 
-// dp[i][j] = number of occurance of j in Array[i, i+1, ..., n-1]
-int dp[M][N];
+void solve(const int a[], int n) {
 
-void calculateDp(int items[], int n) {
+    long inc[n];
+    long dec[n];
+    long answer;
 
-    dp[n-1][items[n-1]] = 1;
+    REP (i, n) {
+        inc[i] = dec[i] = -1;
+    }
 
-    REP(j, N) {
-        FORD(i, n-2, 0) {
-            dp[i][j] = dp[i+1][j] + ((items[i] == j) ? 1 : 0);
+    answer = inc[0] = a[0];
+
+    FOR (i, 1, n) {
+        if (a[i] > a[i-1]) {
+            if (inc[i-1] != -1) {
+                inc[i] = inc[i-1] + a[i];
+            } else {
+                inc[i] = a[i-1] + a[i];
+            }
+            answer = max(answer, inc[i]);
+        } else if (a[i] < a[i-1]) {
+            if (inc[i-1] != -1) {
+                dec[i] = inc[i-1] + a[i];
+            } else {
+                dec[i] = dec[i-1] + a[i];
+            }
+            answer = max(answer, dec[i]);
+        } else {
+            inc[i] = a[i];
+            answer = max(answer, inc[i]);
         }
     }
+
+    cout << answer << endl;
 
 }
 
-int xmain() {
+int main() {
 
-    int n;
-    int items[M];
+    int t, n;
+    cin >> t;
 
-    cin >> n;
-    REP(i, n) {
-        cin >> items[i];
-    }
-
-    calculateDp(items, n);
-
-    int count = 0;
-    REP(i, n-2) {
-        FOR(j, i+1, n-1) {
-            // 25 = (15000^(1/3)) + 1
-            REP(k, 25) {
-                int cube = k * k * k;
-                int remaining = cube - (items[i] + items[j]);
-                if (remaining > 0) {
-                    count += dp[j+1][remaining];
-                }
-            }
+    REP (i, t) {
+        cin >> n;
+        int a[n];
+        REP (j, n) {
+            cin >> a[j];
         }
+        solve(a, n);
     }
 
-    cout << count << endl;
-    return 0;
+    return EXIT_SUCCESS;
 
 }
