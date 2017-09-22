@@ -40,34 +40,33 @@ typedef vector<ld> vld;
 
 void solve(const int a[], int n) {
 
-    long inc[n];
-    long dec[n];
+    long h[n];
     long answer;
+    bool increasing = true;
 
     REP (i, n) {
-        inc[i] = dec[i] = -1;
+        h[i] = -1;
     }
 
-    answer = inc[0] = a[0];
+    answer = h[0] = a[0];
 
     FOR (i, 1, n) {
         if (a[i] > a[i-1]) {
-            if (inc[i-1] != -1) {
-                inc[i] = inc[i-1] + a[i];
+            if (increasing) {
+                h[i] = h[i-1] + a[i];
             } else {
-                inc[i] = a[i-1] + a[i];
+                h[i] = a[i-1] + a[i];
             }
-            answer = max(answer, inc[i]);
+            answer = max(answer, h[i]);
+            increasing = true;
         } else if (a[i] < a[i-1]) {
-            if (inc[i-1] != -1) {
-                dec[i] = inc[i-1] + a[i];
-            } else {
-                dec[i] = dec[i-1] + a[i];
-            }
-            answer = max(answer, dec[i]);
+            h[i] = h[i-1] + a[i];
+            answer = max(answer, h[i]);
+            increasing = false;
         } else {
-            inc[i] = a[i];
-            answer = max(answer, inc[i]);
+            h[i] = a[i];
+            answer = max(answer, h[i]);
+            increasing = true;
         }
     }
 
