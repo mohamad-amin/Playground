@@ -1,6 +1,6 @@
 /**
  * Created by Mohamad Amin Mohamadi (mohammadi.mohamadamin@gmail.com) on 9/22/17
- * Problem url: http://www.geeksforgeeks.org/maximum-sum-bitonic-subarray/
+ * Problem url: http://www.geeksforgeeks.org/maximum-sum-bi-tonic-sub-sequence/
  */
 #include <bits/stdc++.h>
 using namespace std;
@@ -40,41 +40,36 @@ typedef vector<ld> vld;
 
 void solve(const int a[], int n) {
 
-    long h[n];
-    long answer;
-    bool increasing = true;
+    // dp[i][j] = max sum ending at i, j = 0 -> increasing, j = 1 -> decreasing
+    long dp[n][2];
+    int increasing = 0, decreasing = 1;
+    long answer = -1;
 
     REP (i, n) {
-        h[i] = -1;
+        dp[i][0] = dp[i][1] = a[i];
     }
 
-    answer = h[0] = a[0];
+    answer = dp[0][0];
 
     FOR (i, 1, n) {
-        if (a[i] > a[i-1]) {
-            if (increasing) {
-                h[i] = h[i-1] + a[i];
-            } else {
-                h[i] = a[i-1] + a[i];
+        REP (k, i) {
+            if (a[k] < a[i]) {
+                dp[i][increasing] = max(dp[i][increasing], dp[k][increasing] + a[i]);
+            } else if (a[k] > a[i]) {
+                dp[i][decreasing] =
+                        max(dp[i][decreasing],
+                            max(dp[k][decreasing] + a[i], dp[k][increasing] + a[i])
+                        );
             }
-            answer = max(answer, h[i]);
-            increasing = true;
-        } else if (a[i] < a[i-1]) {
-            h[i] = h[i-1] + a[i];
-            answer = max(answer, h[i]);
-            increasing = false;
-        } else {
-            h[i] = a[i];
-            answer = max(answer, h[i]);
-            increasing = true;
         }
+        answer = max(answer, max(dp[i][increasing], dp[i][decreasing]));
     }
 
     cout << answer << endl;
 
 }
 
-int xmain() {
+int main() {
 
     int t, n;
     cin >> t;
