@@ -3,5 +3,5 @@ project(GeeksForGeeks)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES dp/TripletsWithPerfectCubeSum.cpp)
 add_executable(GeeksForGeeks ${SOURCE_FILES})
