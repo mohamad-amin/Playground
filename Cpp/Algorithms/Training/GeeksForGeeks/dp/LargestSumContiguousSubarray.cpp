@@ -41,15 +41,12 @@ typedef vector<ld> vld;
 void solve(int a[], int n) {
 
     long most;
-    long largest[n];
-    REP (i, n) {
-        largest[i] = 0;
-    }
-    most = largest[0] = a[0];
+    long max_ending_here;
+    most = max_ending_here = a[0];
 
     FOR (i, 1, n) {
-        largest[i] = max(largest[i-1] + a[i], (long) a[i]);
-        most = max(most, largest[i]);
+        max_ending_here = max(max_ending_here + a[i], (long) a[i]);
+        most = max(most, max_ending_here);
     }
 
     cout << most << endl;
