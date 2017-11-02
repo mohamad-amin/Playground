@@ -3,5 +3,8 @@ project(GeeksForGeeks)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES dp/TripletsWithPerfectCubeSum.cpp dp/MaximumSumBitonicSubarray.cpp dp/MaximumSumBitonicSubsequence.cpp dp/LargestSumContiguousSubarray.cpp dp/MaximumSumRectangle.cpp dp/LargestSquareWithAllOnes.cpp "graph/XTotalShapes(BFS).cpp" "graph/NodesAtEvenDistance(DFS).cpp")
-add_executable(GeeksForGeeks ${SOURCE_FILES})
+file(GLOB DP "dp/*.cpp")
+file(GLOB GRAPH "graph/*.cpp")
+file(GLOB GEOMETRIC "geometric/*.cpp")
+
+add_executable(GeeksForGeeks ${DP} ${GRAPH} ${GEOMETRIC})

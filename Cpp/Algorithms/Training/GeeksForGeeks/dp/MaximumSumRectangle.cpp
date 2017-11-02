@@ -38,7 +38,7 @@ typedef vector<ld> vld;
 #define N 15001
 #define M 1001
 
-void solve(int n, int m, const int a[n][]) {
+void solve(int n, int m, int **a) {
 
     long temp[n][m];
     long maxToHere[n];
@@ -78,10 +78,12 @@ int main() {
     int t, n, m;
     cin >> t;
 
-    REP (i, t) {
+    REP (k, t) {
         cin >> n;
         cin >> m;
-        int a[n][m];
+        int **a;
+        a = new int*[n];
+        REP(i, n) a[i] = new int[m];
         REP (i, n) {
             REP (j, m) {
                 cin >> a[i][j];
